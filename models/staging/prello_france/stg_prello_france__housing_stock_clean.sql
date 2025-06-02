@@ -10,6 +10,7 @@ renamed as (
 
     select
         int64_field_0,
+        CAST(year AS STRING) || '_' || CAST(municipality_code AS STRING) AS year_municipality_key,
         municipality_code,
         year,
         nb_principal_home,
@@ -18,10 +19,10 @@ renamed as (
         nb_tot_housing,
         secondary_home_rate,
         principal_home_rate,
-        vacants_housing_rate,
-        country_code
+        vacants_housing_rate
 
     from source
+    where year > 2000
 
 )
 
