@@ -22,6 +22,7 @@ renamed as (
         vacants_housing_rate
 
     from source
+    where year > 2000
 
 )
 
