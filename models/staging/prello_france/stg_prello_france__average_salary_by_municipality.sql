@@ -6,16 +6,17 @@ source as (
 
 ),
 
-renamed as (
+cleaned as (
 
     select
         municipality_code,
         avg_net_salary,
-        year,
-        country_code
+        year
 
     from source
+    where municipality_code is not null 
 
 )
 
-select * from renamed
+select * from cleaned
+
