@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: population_by_municipality
+    description: "Population per municipality per year."
+    columns:
+      - name: municipality_code
+        description: "INSEE code for the municipality."                        
+      - name: year
+        description: "Year of the population record."                         
+      - name: population
+        description: "Total population."                  
+      - name: country_code
+        description: "Country code."
+      - name: population_id
+        description: "Unique ID composed of municipality_code and year"
+        tests:
+          - unique
+          - not_null
+
+  - name: POI_tourist_establishments
+
+  - name: POI_touristic_sites_by_municipality
+
+  - name: average_salary_by_municipality
+
+  - name: geographical_referential
+
+  - name: housing_stock
+
+  - name: notary_real_estate_sales
+
+  - name: poverty_population_by_municipality
+
+  - name: real_estate_info_by_municipality

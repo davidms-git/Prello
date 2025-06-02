@@ -1,21 +1,24 @@
-with 
-
-source as (
-
-    select * from {{ source('prello_france', 'population_by_municipality') }}
-
+with source as (
+    select * 
+    from {{ source('prello_france', 'population_by_municipality') }}
+),
+cleaned as (
+    select
+        cast(municipality_code as string) as municipality_code,
+        cast(year as int) as year,
+        population,
+        -- Add more fields as needed
+    from source
+    where municipality_code is not null
+      and year is not null
+      and year >= 2000
 ),
 
-renamed as (
-
+final as (
     select
-        municipality_code,
-        year,
-        population,
-        country_code
-
-    from source
-
+        *,
+        concat(municipality_code, '_', cast(year as string)) as id
+    from cleaned
 )
 
-select * from renamed
+select * from final
