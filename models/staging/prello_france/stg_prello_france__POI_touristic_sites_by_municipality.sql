@@ -1,14 +1,13 @@
-with 
+WITH source AS (
 
-source as (
-
-    select * from {{ source('prello_france', 'POI_touristic_sites_by_municipality') }}
+    SELECT *
+    FROM {{ source('prello_france', 'POI_touristic_sites_by_municipality') }}
 
 ),
 
-renamed as (
+cleaned AS (
 
-    select
+    SELECT DISTINCT
         poi,
         name,
         latitude,
@@ -16,9 +15,13 @@ renamed as (
         municipality_code,
         importance,
         name_reprocessed
-
-    from source
+    FROM source
+    WHERE
+        municipality_code IS NOT NULL
+        AND importance IS NOT NULL
+        AND importance > 0
 
 )
 
-select * from renamed
+SELECT *
+FROM cleaned
