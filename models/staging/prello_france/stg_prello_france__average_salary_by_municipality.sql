@@ -19,4 +19,3 @@ cleaned as (
 )
 
 select * from cleaned
-
