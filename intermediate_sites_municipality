@@ -1,0 +1,30 @@
+WITH source AS (
+
+    SELECT *
+    FROM {{ source('prello_france', 'POI_touristic_sites_by_municipality') }}
+
+),
+
+cleaned AS (
+
+    SELECT
+        municipality_code,
+        importance
+    FROM source
+    WHERE municipality_code IS NOT NULL
+
+),
+
+aggregated AS (
+
+    SELECT
+        municipality_code,
+        COUNT(*) AS num_touristic_sites,
+        SUM(importance) AS poi_importance_score
+    FROM cleaned
+    GROUP BY municipality_code
+
+)
+
+SELECT *
+FROM aggregated
