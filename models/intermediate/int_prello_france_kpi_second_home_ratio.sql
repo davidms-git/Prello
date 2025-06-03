@@ -1,5 +1,7 @@
 SELECT
   year_municipality_key,
+  municipality_code,
+  year,
   nb_second_home,
   nb_tot_housing,
   CASE 
