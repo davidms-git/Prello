@@ -1,23 +1,21 @@
-with salaries as (
+with 
 
-    select *
-    from {{ ref('stg_prello_france__average_salary_by_municipality') }}
-    where municipality_code is not null
-      and year is not null
+source as (
+
+    select * from {{ source('prello_france', 'average_salary_by_municipality') }}
 
 ),
 
-latest_salary as (
+cleaned as (
 
-    select *
-    from salaries
-    qualify row_number() over (
-        partition by municipality_code
-        order by year desc
-    ) = 1
+    select
+        municipality_code,
+        avg_net_salary,
+        year
+
+    from source
+    where municipality_code is not null 
 
 )
 
-select *
-from latest_salary
-
+select * from cleaned
