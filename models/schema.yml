@@ -17,8 +17,8 @@ models:
         tests:
           - not_null
           - unique
-  -  name: population_by_municipality
-    description: "Population per municipality per year."
+  - name: population_by_municipality
+    description: "Population per municipality per year"
     columns:
       - name: municipality_code
         description: "INSEE code for the municipality."                        
