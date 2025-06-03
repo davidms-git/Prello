@@ -13,4 +13,5 @@ sources:
       - name: notary_real_estate_sales
       - name: population_by_municipality       
       - name: poverty_population_by_municipality
+      - name: real_estate_info_by_municipality
     
