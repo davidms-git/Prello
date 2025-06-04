@@ -84,7 +84,7 @@ joined_kpis as (
     pct.poi_density,
     ry.rental_med_all,
     ry.median_sales_price_m2_2021,
-    ry.rental_yield_pct,
+    ry.rental_yield,
     pcs.establishment_score,
     vr.nb_vacants_housing,
     vr.nb_tot_housing,
