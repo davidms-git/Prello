@@ -1,37 +1,87 @@
 models:
   - name: POI_tourist_establishments
+    description: "List of tourist establishments per municipality"
+    columns: 
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: importance
+      description: "Relevance of the tourist establishment on a scale from 0 to 1"
   - name: POI_touristic_sites_by_municipality
+    description: "List of points of interest by municipality"
+    columns:
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: poi_count
+      description: "Number of touristic points of interest for the municipality"
+    - name: population
+      description: "Total population"
+    - name: importance
+      description: "Relevance the points of interest on a scale from 0 to 1"
   - name: average_salary_by_municipality
+    description: "Average salary by year per municipality"
+    columns: 
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: avg_net_salary
+      description: "Average net salary"
+    - name: year
+      description: "Year"
   - name: geographical_referential
+    description: "List of cities including their municipality code, municipality name as well as geographical coordinates"
+    columns: 
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: city_name
+      description: "Municipality's name"
+    - name: latitude
+      description: "Coordinates for the municipality's latitude"
+    - name: longitude
+      description: "Coordinates for the municipality's longitude"
   - name: housing_stock_clean
+    description: "Number of available and vacant principal and second homes by municipality and by year"
     columns:
-      - name: year_municipality_key
-        description: "Primary key combining year and municipality code"
-        tests:
-          - not_null
-          - unique
+    - name: year_municipality_key
+      description: "Primary key combining year and municipality code"
+      tests:
+        - not_null
+        - unique
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: nb_second_home
+      description: "Number of second homes"
+    - name: nb_tot_housing
+      description: "Number of total housing"
+    - name: year
+      description: "Year"
   - name: notary_real_estate_sales_clean
+    description: "Sales prices by municipality per year, both at in absolute sales price and in price by m2"
     columns:
-      - name: year_municipality_key
-        description: "Primary key combining year and municipality_code"
-        tests:
-          - not_null
-          - unique
+    - name: year_municipality_key
+      description: "Primary key combining year and municipality_code"
+      tests:
+        - not_null
+        - unique
+    - name: municipality_code
+      description: "Unique identifier by municipality"
+    - name: year
+      description: "Year"
+    - name: price_m2
+      description: "Price per m2 at the time of sale"
   - name: population_by_municipality
     description: "Population per municipality per year"
     columns:
-      - name: municipality_code
-        description: "INSEE code for the municipality."                        
-      - name: year
-        description: "Year of the population record."                         
-      - name: population
-        description: "Total population."                  
-      - name: country_code
-        description: "Country code."
-      - name: population_id
-        description: "Unique ID composed of municipality_code and year"
-        tests:
-          - unique
-          - not_null
+    - name: municipality_code
+      description: "INSEE code for the municipality."                        
+    - name: year
+      description: "Year of the population record."                         
+    - name: population
+      description: "Total population."                  
+    - name: country_code
+      description: "Country code."
+    - name: population_id
+      description: "Unique ID composed of municipality_code and year"
+      tests:
+        - unique
+        - not_null
   - name: poverty_population_by_municipality
   - name: real_estate_info_by_municipality
