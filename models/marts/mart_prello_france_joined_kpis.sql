@@ -49,7 +49,7 @@ rental_yield as (
     municipality_code,
     rental_med_all,
     median_sales_price_m2_2021,
-    rental_yield_pct
+    rental_yield
     from {{ref('int_prello_france_kpi_rental_yield')}}
 ),
 
