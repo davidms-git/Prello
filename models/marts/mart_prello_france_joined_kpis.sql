@@ -67,6 +67,22 @@ vacancy_rate as (
     nb_tot_housing,
     vacancy_rate_normalized
     from {{ref('int_prello_france_kpi_vacancy_rate')}}
+), 
+
+second_home_ratio_2 as (
+    select
+    municipality_code,
+    nb_second_home,
+    nb_tot_housing  AS nb_tot_housing_shr,
+    second_home_ratio
+    from {{ref('int_prello_france_kpi_second_home_ratio_2')}}
+),
+
+sales_price_2 as (
+    select
+    municipality_code,
+    avg_sales_price_m2,
+     from {{ref('int_prello_france_kpi_sales_price_2')}}
 ),
 
 
@@ -89,6 +105,10 @@ joined_kpis as (
     vr.nb_vacants_housing,
     vr.nb_tot_housing,
     vr.vacancy_rate_normalized,
+    sp2.avg_sales_price_m2   AS avg_sales_price_m2_latest,   -- NEW
+    shr.nb_second_home,
+    shr.nb_tot_housing_shr,             -- avoid dupe name clash
+    shr.second_home_ratio,
     hs.housing_stress_index_normalized
 
 
@@ -101,6 +121,8 @@ joined_kpis as (
     left join rental_yield ry on gr.municipality_code = ry.municipality_code
     left join establishment_poi_score pcs on gr.municipality_code = pcs.municipality_code
     left join vacancy_rate vr on gr.municipality_code = vr.municipality_code
+    left join second_home_ratio_2 shr on gr.municipality_code = shr.municipality_code
+    left join sales_price_2 sp2 on gr.municipality_code = sp2.municipality_code
 )
 
 select * from joined_kpis
