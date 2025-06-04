@@ -88,7 +88,8 @@ joined_kpis as (
     pcs.establishment_score,
     vr.nb_vacants_housing,
     vr.nb_tot_housing,
-    vr.vacancy_rate_normalized
+    vr.vacancy_rate_normalized,
+    hs.housing_stress_index_normalized
 
 
     from geographical_referential gr
