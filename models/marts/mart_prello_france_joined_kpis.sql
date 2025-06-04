@@ -49,7 +49,7 @@ rental_yield as (
     municipality_code,
     rental_med_all,
     median_sales_price_m2_2021,
-    rental_yield_pct
+    rental_yield
     from {{ref('int_prello_france_kpi_rental_yield')}}
 ),
 
@@ -100,7 +100,7 @@ joined_kpis as (
     pct.poi_density,
     ry.rental_med_all,
     ry.median_sales_price_m2_2021,
-    ry.rental_yield_pct,
+    ry.rental_yield,
     pcs.establishment_score,
     vr.nb_vacants_housing,
     vr.nb_tot_housing,
@@ -108,7 +108,8 @@ joined_kpis as (
     sp2.avg_sales_price_m2   AS avg_sales_price_m2_latest,   -- NEW
     shr.nb_second_home,
     shr.nb_tot_housing_shr,             -- avoid dupe name clash
-    shr.second_home_ratio
+    shr.second_home_ratio,
+    hs.housing_stress_index_normalized
 
 
     from geographical_referential gr
