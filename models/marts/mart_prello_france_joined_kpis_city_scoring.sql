@@ -56,7 +56,7 @@ rental_yield as (
 establishment_poi_score as (
     select
     municipality_code,
-    establishment_score
+    raw_establishment_score
     from {{ref('int_prello_france_kpi_tourist_poi_score')}}
 ),
 
@@ -97,7 +97,7 @@ joined_kpis as (
     pct.touristic_sites_poi_count,
     pct.poi_density,
     ry.rental_yield,
-    pcs.establishment_score,
+    pcs.raw_establishment_score,
     vr.vacancy_rate_normalized,
     sp2.avg_sales_price_m2   AS avg_sales_price_m2_latest,   -- NEW
     shr.second_home_ratio,
