@@ -9,9 +9,9 @@ WITH ranked AS (
             ORDER BY year DESC
         ) AS rn
     FROM {{ ref('stg_prello_france__housing_stock_clean') }}
-)
+),
 
-SELECT
+ base AS (SELECT
     municipality_code,
     year                                     AS latest_year,
     SUM(nb_second_home) AS nb_second_home,
@@ -22,4 +22,20 @@ SELECT
     END AS second_home_ratio
 FROM ranked
 WHERE rn = 1                                 -- keep only the latest-year row
-GROUP BY municipality_code, year
+GROUP BY municipality_code, year)
+
+-- extra CTE to hold the min & max of the ratio
+, stats AS (
+    SELECT
+        MIN(second_home_ratio) AS ratio_min,
+        MAX(second_home_ratio) AS ratio_max
+    FROM base 
+)
+
+SELECT
+    b.*,
+    -- min-max normalised ratio (0–1)
+    (b.second_home_ratio - s.ratio_min)
+      / NULLIF(s.ratio_max - s.ratio_min, 0)  AS second_home_ratio_normalized
+FROM base AS b
+CROSS JOIN stats AS s
