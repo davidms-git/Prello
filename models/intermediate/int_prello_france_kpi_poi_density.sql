@@ -14,13 +14,51 @@ latest_population AS (
     WHERE year = (
         SELECT MAX(year) FROM {{ ref('stg_prello_france__population_by_municipality') }}
     )
+),
+
+joined_data AS (
+    SELECT
+        pc.municipality_code,
+        poi_count,
+        population,
+        SAFE_DIVIDE(poi_count, population) AS poi_density
+    FROM poi_counts pc
+    JOIN latest_population lp
+        ON pc.municipality_code = lp.municipality_code
+),
+
+stats AS (
+    SELECT
+        MIN(poi_density) AS min_density,
+        MAX(poi_density) AS max_density,
+        MIN(poi_count) AS min_count,
+        MAX(poi_count) AS max_count
+    FROM joined_data
 )
 
 SELECT
-    poi_counts.municipality_code,
-    poi_count,
-    population,
-    ROUND(SAFE_DIVIDE(poi_count, population), 2) AS poi_density
-FROM poi_counts
-JOIN latest_population
-    ON poi_counts.municipality_code = latest_population.municipality_code
+    jd.municipality_code,
+    jd.poi_count,
+    jd.population,
+    ROUND(jd.poi_density, 2) AS poi_density,
+    
+    ROUND(
+        CASE 
+            WHEN s.max_density != s.min_density THEN
+                (jd.poi_density - s.min_density) / (s.max_density - s.min_density)
+            ELSE 0
+        END,
+        2
+    ) AS poi_density_normalized,
+
+    ROUND(
+        CASE
+            WHEN s.max_count != s.min_count THEN
+                (jd.poi_count - s.min_count) / (s.max_count - s.min_count)
+            ELSE 0
+        END,
+        2
+    ) AS poi_count_normalized
+
+FROM joined_data jd
+CROSS JOIN stats s
