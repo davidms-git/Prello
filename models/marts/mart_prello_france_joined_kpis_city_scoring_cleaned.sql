@@ -8,9 +8,9 @@ with city_scoring_kpis as (
 cleaned as (
 
     select
-        * except(rental_yield, establishment_score, count_tourist_poi, poi_density, touristic_sites_poi_count),
+        * except(rental_yield, raw_establishment_score, count_tourist_poi, poi_density, touristic_sites_poi_count),
         coalesce(rental_yield, 0) as rental_yield_clean,
-        coalesce(establishment_score, 0) as establishment_score_clean,
+        coalesce(raw_establishment_score, 0) as establishment_score_clean,
         coalesce(count_tourist_poi, 0) as count_tourist_poi_clean,
         coalesce(poi_density, 0) as poi_density_clean,
         coalesce(touristic_sites_poi_count, 0) as touristic_sites_poi_count_clean

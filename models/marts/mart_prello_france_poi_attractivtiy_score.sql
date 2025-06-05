@@ -19,7 +19,7 @@ poi_density_touristic_sites as (
 establishment_poi_score as (
     select
         municipality_code,
-        establishment_score
+        raw_establishment_score
     from {{ ref('int_prello_france_kpi_tourist_poi_score') }}
 ),
 
@@ -40,7 +40,7 @@ joined as (
         -- Use COALESCE to replace nulls with 0
         coalesce(pct.touristic_sites_poi_count, 0) as touristic_sites_poi_count,
         coalesce(pct.poi_density, 0) as poi_density,
-        coalesce(pcs.establishment_score, 0) as establishment_score,
+        coalesce(pcs.raw_establishment_score, 0) as raw_establishment_score,
         coalesce(cpoi.count_tourist_poi, 0) as count_tourist_poi
 
     from geographical_referential gr
@@ -56,8 +56,8 @@ stats as (
         max(touristic_sites_poi_count) as max_ts_poi,
         min(poi_density) as min_poi_density,
         max(poi_density) as max_poi_density,
-        min(establishment_score) as min_est_score,
-        max(establishment_score) as max_est_score,
+        min(raw_establishment_score) as min_est_score,
+        max(raw_establishment_score) as max_est_score,
         min(count_tourist_poi) as min_count_poi,
         max(count_tourist_poi) as max_count_poi
     from joined
@@ -84,7 +84,7 @@ final as (
 
         case 
             when s.max_est_score = s.min_est_score then 0
-            else (j.establishment_score - s.min_est_score) / (s.max_est_score - s.min_est_score)
+            else (j.raw_establishment_score - s.min_est_score) / (s.max_est_score - s.min_est_score)
         end as norm_establishment_score,
 
         case 
@@ -96,7 +96,7 @@ final as (
         (
             case when s.max_ts_poi = s.min_ts_poi then 0 else (j.touristic_sites_poi_count - s.min_ts_poi) / (s.max_ts_poi - s.min_ts_poi) end +
             case when s.max_poi_density = s.min_poi_density then 0 else (j.poi_density - s.min_poi_density) / (s.max_poi_density - s.min_poi_density) end +
-            case when s.max_est_score = s.min_est_score then 0 else (j.establishment_score - s.min_est_score) / (s.max_est_score - s.min_est_score) end +
+            case when s.max_est_score = s.min_est_score then 0 else (j.raw_establishment_score - s.min_est_score) / (s.max_est_score - s.min_est_score) end +
             case when s.max_count_poi = s.min_count_poi then 0 else (j.count_tourist_poi - s.min_count_poi) / (s.max_count_poi - s.min_count_poi) end
         ) as attractiveness_score
 
