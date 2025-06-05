@@ -29,13 +29,14 @@ select
     latitude,
     longitude,
     rental_yield_normalized, 
-    establishment_score_normalized, 
-    count_tourist_poi_normalized, 
-    poi_density_normalized, 
-    poi_count_normalized,
     avg_growth_last_5_years_normalized,
     housing_stress_index_normalized,
     vacancy_rate_normalized,
-    second_home_ratio_normalized
+    second_home_ratio_normalized,
+    avg_sales_price_m2_normalized,
+    establishment_score_normalized, 
+    count_tourist_poi_normalized, 
+    poi_density_normalized, 
+    poi_count_normalized
     
 from cleaned
