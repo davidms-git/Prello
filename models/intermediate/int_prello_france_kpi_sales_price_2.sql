@@ -33,7 +33,19 @@ WITH base AS (
     FROM filtered
     GROUP BY municipality_code, year
 
+),
+
+min_max AS (
+    SELECT
+        MIN(avg_sales_price_m2) AS min_val,
+        MAX(avg_sales_price_m2) AS max_val
+    FROM agg
 )
 
-SELECT *
-FROM agg
+SELECT
+    a.municipality_code,
+    a.latest_year,
+    a.avg_sales_price_m2,
+    (a.avg_sales_price_m2 - m.min_val) / NULLIF(m.max_val - m.min_val, 0) AS avg_sales_price_m2_normalized
+FROM agg a
+CROSS JOIN min_max m
