@@ -35,6 +35,13 @@ population_growth_5_year as (
     from {{ref('int_prello_france_kpi_percentage_population_growth')}}
 ),
 
+population_growth_5_year_normalized as (
+    select
+    municipality_code,
+    avg_growth_last_5_years_normalized
+    from {{ref('int_prello_france_kpi_population_growth_rate_normalized')}}
+),
+
 poi_density_touristic_sites as (
     select
     municipality_code,
@@ -82,6 +89,7 @@ sales_price_2 as (
     select
     municipality_code,
     avg_sales_price_m2,
+    avg_sales_price_m2_normalized
      from {{ref('int_prello_france_kpi_sales_price_2')}}
 ),
 
@@ -94,12 +102,14 @@ joined_kpis as (
     gr.longitude,
     cpoi.count_tourist_poi,
     pg.avg_growth_last_5_years,
+    pgn.avg_growth_last_5_years_normalized,
     pct.touristic_sites_poi_count,
     pct.poi_density,
     ry.rental_yield,
     pcs.raw_establishment_score,
     vr.vacancy_rate_normalized,
     sp2.avg_sales_price_m2   AS avg_sales_price_m2_latest,   -- NEW
+    sp2.avg_sales_price_m2_normalized,
     shr.second_home_ratio,
     hs.housing_stress_index_normalized
 
@@ -109,6 +119,7 @@ joined_kpis as (
     left join count_tourist_est_poi cpoi on gr.municipality_code = cpoi.municipality_code
     left join housing_stress_index hs on gr.municipality_code = hs.municipality_code
     left join population_growth_5_year pg on gr.municipality_code = pg.municipality_code
+    left join population_growth_5_year_normalized pgn on gr.municipality_code = pgn.municipality_code
     left join poi_density_touristic_sites pct on gr.municipality_code = pct.municipality_code
     left join rental_yield ry on gr.municipality_code = ry.municipality_code
     left join establishment_poi_score pcs on gr.municipality_code = pcs.municipality_code
