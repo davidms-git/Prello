@@ -8,19 +8,34 @@ with city_scoring_kpis as (
 cleaned as (
 
     select
-        * except(rental_yield, raw_establishment_score, count_tourist_poi, poi_density, touristic_sites_poi_count),
-        coalesce(rental_yield, 0) as rental_yield_clean,
-        coalesce(raw_establishment_score, 0) as establishment_score_clean,
-        coalesce(count_tourist_poi, 0) as count_tourist_poi_clean,
-        coalesce(poi_density, 0) as poi_density_clean,
-        coalesce(touristic_sites_poi_count, 0) as touristic_sites_poi_count_clean
+        * except(rental_yield_normalized, establishment_score_normalized, count_tourist_poi_normalized, poi_density_normalized, poi_count_normalized),
+        coalesce(rental_yield_normalized, 0) as rental_yield_normalized,
+        coalesce(establishment_score_normalized, 0) as establishment_score_normalized,
+        coalesce(count_tourist_poi_normalized, 0) as count_tourist_poi_normalized,
+        coalesce(poi_density_normalized, 0) as poi_density_normalized,
+        coalesce(poi_count_normalized, 0) as poi_count_normalized
     from city_scoring_kpis
-    where avg_sales_price_m2_latest is not null
+    where avg_sales_price_m2_normalized is not null
         and housing_stress_index_normalized is not null
         and vacancy_rate_normalized is not null
-        and second_home_ratio is not null
-        and avg_growth_last_5_years is not null
+        and second_home_ratio_normalized is not null
+        and avg_growth_last_5_years_normalized is not null
 
 )
 
-select * from cleaned
+select 
+    municipality_code,
+    city_name_normalized,
+    latitude,
+    longitude,
+    rental_yield_normalized, 
+    establishment_score_normalized, 
+    count_tourist_poi_normalized, 
+    poi_density_normalized, 
+    poi_count_normalized,
+    avg_growth_last_5_years_normalized,
+    housing_stress_index_normalized,
+    vacancy_rate_normalized,
+    second_home_ratio_normalized
+    
+from cleaned

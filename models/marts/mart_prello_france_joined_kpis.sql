@@ -1,3 +1,4 @@
+
 with geographical_referential as (
     select
     municipality_code,
@@ -40,7 +41,8 @@ poi_density_touristic_sites as (
     municipality_code,
     poi_count as touristic_sites_poi_count,
     population,
-    poi_density
+    poi_density,
+    poi_count_normalized
     from {{ref('int_prello_france_kpi_poi_density')}}
 ),
 
@@ -49,7 +51,8 @@ rental_yield as (
     municipality_code,
     rental_med_all,
     median_sales_price_m2_2021,
-    rental_yield
+    rental_yield_yearly,
+    rental_yield_normalized
     from {{ref('int_prello_france_kpi_rental_yield')}}
 ),
 
@@ -74,7 +77,8 @@ second_home_ratio_2 as (
     municipality_code,
     nb_second_home,
     nb_tot_housing  AS nb_tot_housing_shr,
-    second_home_ratio
+    second_home_ratio,
+    second_home_ratio_normalized
     from {{ref('int_prello_france_kpi_second_home_ratio_2')}}
 ),
 
@@ -98,9 +102,11 @@ joined_kpis as (
     pct.touristic_sites_poi_count,
     pct.population,
     pct.poi_density,
+    pct.poi_count_normalized,
     ry.rental_med_all,
     ry.median_sales_price_m2_2021,
-    ry.rental_yield,
+    ry.rental_yield_yearly,
+    ry.rental_yield_normalized,
     pcs.raw_establishment_score,
     vr.nb_vacants_housing,
     vr.nb_tot_housing,
@@ -109,6 +115,7 @@ joined_kpis as (
     shr.nb_second_home,
     shr.nb_tot_housing_shr,             -- avoid dupe name clash
     shr.second_home_ratio,
+    shr.second_home_ratio_normalized,
     hs.housing_stress_index_normalized
 
 
