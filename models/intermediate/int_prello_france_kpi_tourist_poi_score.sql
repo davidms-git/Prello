@@ -16,7 +16,8 @@ max_score AS (
 normalized AS (
     SELECT
         b.municipality_code,
-        ROUND(SAFE_DIVIDE(b.raw_establishment_score, m.max_score), 4) AS establishment_score
+        b.raw_establishment_score,
+        ROUND(SAFE_DIVIDE(b.raw_establishment_score, m.max_score), 4) AS establishment_score_normalized
     FROM base b
     CROSS JOIN max_score m
 )
