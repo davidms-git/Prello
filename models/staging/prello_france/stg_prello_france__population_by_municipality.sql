@@ -6,7 +6,7 @@ cleaned as (
     select
         cast(municipality_code as string) as municipality_code,
         cast(year as int) as year,
-        population,
+        cast(population as float64) as population,
         -- Add more fields as needed
     from source
     where municipality_code is not null
