@@ -29,7 +29,7 @@ joined AS (
         rental_data.municipality_code,
         rental_med_all,
         median_sales_price_m2_2021,
-        ROUND(SAFE_DIVIDE(rental_med_all, median_sales_price_m2_2021), 4) AS rental_yield
+        ROUND(SAFE_DIVIDE(rental_med_all * 12, median_sales_price_m2_2021), 4) AS rental_yield
     FROM rental_data
     JOIN median_sales_price
         ON rental_data.municipality_code = median_sales_price.municipality_code

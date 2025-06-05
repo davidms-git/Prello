@@ -92,37 +92,29 @@ joined_kpis as (
     gr.city_name_normalized,
     gr.latitude,
     gr.longitude,
-    avs.avg_net_salary,
     cpoi.count_tourist_poi,
     pg.avg_growth_last_5_years,
     pct.touristic_sites_poi_count,
-    pct.population,
     pct.poi_density,
-    ry.rental_med_all,
-    ry.median_sales_price_m2_2021,
     ry.rental_yield,
     pcs.establishment_score,
-    vr.nb_vacants_housing,
-    vr.nb_tot_housing,
     vr.vacancy_rate_normalized,
     sp2.avg_sales_price_m2   AS avg_sales_price_m2_latest,   -- NEW
-    shr.nb_second_home,
-    shr.nb_tot_housing_shr,             -- avoid dupe name clash
     shr.second_home_ratio,
     hs.housing_stress_index_normalized
 
 
     from geographical_referential gr
-    inner join average_salary avs on gr.municipality_code = avs.municipality_code
-    inner join count_tourist_est_poi cpoi on gr.municipality_code = cpoi.municipality_code
-    inner join housing_stress_index hs on gr.municipality_code = hs.municipality_code
-    inner join population_growth_5_year pg on gr.municipality_code = pg.municipality_code
-    inner join poi_density_touristic_sites pct on gr.municipality_code = pct.municipality_code
-    inner join rental_yield ry on gr.municipality_code = ry.municipality_code
-    inner join establishment_poi_score pcs on gr.municipality_code = pcs.municipality_code
-    inner join vacancy_rate vr on gr.municipality_code = vr.municipality_code
-    inner join second_home_ratio_2 shr on gr.municipality_code = shr.municipality_code
-    inner join sales_price_2 sp2 on gr.municipality_code = sp2.municipality_code
+    left join average_salary avs on gr.municipality_code = avs.municipality_code
+    left join count_tourist_est_poi cpoi on gr.municipality_code = cpoi.municipality_code
+    left join housing_stress_index hs on gr.municipality_code = hs.municipality_code
+    left join population_growth_5_year pg on gr.municipality_code = pg.municipality_code
+    left join poi_density_touristic_sites pct on gr.municipality_code = pct.municipality_code
+    left join rental_yield ry on gr.municipality_code = ry.municipality_code
+    left join establishment_poi_score pcs on gr.municipality_code = pcs.municipality_code
+    left join vacancy_rate vr on gr.municipality_code = vr.municipality_code
+    left join second_home_ratio_2 shr on gr.municipality_code = shr.municipality_code
+    left join sales_price_2 sp2 on gr.municipality_code = sp2.municipality_code
 )
 
 select * from joined_kpis
