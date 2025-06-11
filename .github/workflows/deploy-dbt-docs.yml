@@ -38,7 +38,7 @@ jobs:
             "    prod:" \
             "      type: bigquery" \
             "      method: service-account" \
-            "      project: prello_france" \
+            "      project: prello-france" \
             "      dataset: dbt_ddelmor" \
             "      threads: 1" \
             "      timeout_seconds: 300" \
