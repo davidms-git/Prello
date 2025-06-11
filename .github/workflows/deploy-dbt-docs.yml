@@ -11,27 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dbt
-        run: pip install dbt-core dbt-postgres  # Replace with your dbt adapter
-
-      - name: Run dbt build
+      - name: build
         run: dbt build
-
-      - name: Generate full dbt docs
+      - name: generate docs
+        if: github.ref == 'refs/heads/main'
         run: |
           dbt docs generate --static
           mkdir docs-tmp
-          cp -r target/* docs-tmp/
-
-      - name: Deploy to GitHub Pages
+          cp target/static_index.html docs-tmp/index.html
+      - name: publish docs
+        if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs-tmp
