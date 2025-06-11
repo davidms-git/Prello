@@ -3,7 +3,7 @@ name: Deploy dbt Docs to GitHub Pages
 on:
   push:
     branches:
-      - main  # or your default branch
+      - Development  # or your default branch
 
 jobs:
   deploy-docs:
