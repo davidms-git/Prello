@@ -29,7 +29,7 @@ jobs:
           mkdir -p ~/.dbt
           echo "$GCP_KEY" > /tmp/keyfile.json
           cat <<EOF > ~/.dbt/profiles.yml
-          your_project_name: my_new_project  # :point_left: use your actual dbt project name
+          my_new_project  # :point_left: use your actual dbt project name
             target: prod
             outputs:
               prod:
