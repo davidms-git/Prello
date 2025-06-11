@@ -1,4 +1,48 @@
 models:
+  - name: mart_prello_france_joined_kpis_city_scoring
+    description: "All Kpis used for scoring cities joined into one table by municipality with latitude, longitude and city name"
+    columns:
+    - name: municipality_code
+    - name: city_name_normalized
+    - name: latitude
+    - name: longitude
+    - name: avg_growth_last_5_years_normalized
+    - name: poi_density_normalized
+    - name: rental_yield_normalized
+    - name: establishment_score_normalized
+    - name: vacancy_rate_normalized
+    - name: avg_sales_price_m2_normalized
+    - name: second_home_ratio_normalized
+    - name: housing_stress_index_normalized
+    
+  - name: mart_prello_france_joined_kpis_city_normalized_final_version
+    description: "Kpis used for scoring cities joined in one table and normalized from 0 to 1"
+    columns:
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: city_name_normalized
+      description: "name of the city according to its municipality code"
+    - name: latitude
+      description: "latitude of the municipality used for geolocalization"
+    - name: longitude
+      description: "longitude of the municipality used for geolocalization"
+    - name: avg_sales_price_m2_latest
+      description: "most recent information on average sales prices per m2 from each municipality"
+    - name: housing_stress_index_normalized
+      description: "ratio between average salary and average rental price per municipality"
+    - name: second_home_ratio
+      description: "number of second home properties compared to first home properties per municipality"
+    - name: vacancy_rate_normalized
+      description: "number of vacant houses compared to number of total houses per municipality"
+    - name: rental_yield_clean_normalized
+      description: "average rental yield per municipality"
+    - name: establishment_score
+      description: "rating of touristic establishments per munipality"
+    - name: poi_density_clean
+      description: "number of touristic sites per municipality"
+    - name: avg_growth_last_5_years
+      description: "average population growth of the most recent 5 years per municipality"
+
   - name: mart_prello_france_all_scores_scaled_final
     description: "final mart model with scoring metrics for each investor profile"
     columns:
