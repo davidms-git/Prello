@@ -3,25 +3,40 @@ name: Deploy dbt Docs to GitHub Pages
 on:
   push:
     branches:
-      - Development  # or your default branch
+      - Development  # Trigger on pushes to 'Development' branch
   workflow_dispatch:
 
 jobs:
-  deploy-docs:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: build
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-core dbt-postgres  # Adjust adapter if needed
+
+      - name: Build dbt project
         run: dbt build
-      - name: generate docs
-        if: github.ref == 'refs/heads/main'
+
+      - name: Generate dbt docs
         run: |
           dbt docs generate --static
           mkdir docs-tmp
-          cp target/static_index.html docs-tmp/index.html
-      - name: publish docs
-        if: github.ref == 'refs/heads/main'
+          cp target/index.html docs-tmp/index.html
+          cp -r target/manifest.json target/catalog.json docs-tmp/
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/Development'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs-tmp
-          branch: gh-pages
+          branch: gh-pages  # GitHub Pages branch
