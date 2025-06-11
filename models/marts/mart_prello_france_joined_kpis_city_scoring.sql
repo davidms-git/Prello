@@ -25,6 +25,7 @@ count_tourist_est_poi as (
 housing_stress_index as (
     select
     municipality_code,
+    intensite_tension_immo,
     housing_stress_index_normalized
     from {{ref('int_prello_france_kpi_housing_stress_index')}}
 ),
@@ -123,6 +124,7 @@ joined_kpis as (
     sp2.avg_sales_price_m2_normalized,
     shr.second_home_ratio,
     shr.second_home_ratio_normalized,
+    hs.intensite_tension_immo,
     hs.housing_stress_index_normalized
 
 
