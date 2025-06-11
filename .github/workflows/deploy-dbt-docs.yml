@@ -3,15 +3,15 @@ name: Deploy dbt Docs to GitHub Pages
 on:
   push:
     branches:
-      - Development  # Trigger on pushes to 'Development' branch
-  workflow_dispatch:
+      - Development
+  workflow_dispatch:  # Enable manual trigger
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -19,24 +19,45 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install dbt
         run: |
-          python -m pip install --upgrade pip
-          pip install dbt-core dbt-postgres  # Adjust adapter if needed
+          pip install --upgrade pip
+          pip install dbt-core dbt-bigquery
 
-      - name: Build dbt project
+      - name: Create dbt profile and keyfile
+        run: |
+          mkdir -p ~/.dbt
+          echo "$GCP_KEY" > /tmp/keyfile.json
+          cat <<EOF > ~/.dbt/profiles.yml
+          your_project_name: my_new_project  # :point_left: use your actual dbt project name
+            target: prod
+            outputs:
+              prod:
+                type: bigquery
+                method: service-account
+                project: prello-france
+                dataset: dbt_ddelmor
+                threads: 1
+                timeout_seconds: 300
+                keyfile: /tmp/keyfile.json
+          EOF
+        env:
+          GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+
+      - name: Run dbt build
         run: dbt build
 
       - name: Generate dbt docs
         run: |
           dbt docs generate --static
           mkdir docs-tmp
-          cp target/index.html docs-tmp/index.html
-          cp -r target/manifest.json target/catalog.json docs-tmp/
+          cp target/index.html docs-tmp/
+          cp target/manifest.json docs-tmp/
+          cp target/catalog.json docs-tmp/
 
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/Development'
         uses: JamesIves/github-pages-deploy-action@v4
+        if: github.ref == 'refs/heads/Development'
         with:
           folder: docs-tmp
-          branch: gh-pages  # GitHub Pages branch
+          branch: gh-pages
