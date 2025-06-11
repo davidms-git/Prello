@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           echo "$GCP_KEY" > /tmp/keyfile.json
-          cat > ~/.dbt/profiles.yml <<EOF
+          echo "
 my_new_project:
   target: prod
   outputs:
@@ -34,7 +34,7 @@ my_new_project:
       threads: 1
       timeout_seconds: 300
       keyfile: /tmp/keyfile.json
-EOF
+" > ~/.dbt/profiles.yml
         env:
           GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
       - name: Run dbt build
