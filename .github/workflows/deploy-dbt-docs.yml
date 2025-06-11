@@ -2,8 +2,8 @@ name: Deploy dbt Docs to GitHub Pages
 on:
   push:
     branches:
-      - Development
-  workflow_dispatch:  # Allows manual trigger from GitHub UI
+      - Development  # Your default branch
+  workflow_dispatch:  # Allows manual trigger
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,19 +22,19 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           echo "$GCP_KEY" > /tmp/keyfile.json
-          echo "
-my_new_project:
-  target: prod
-  outputs:
-    prod:
-      type: bigquery
-      method: service-account
-      project: prello_france
-      dataset: dbt_ddelmor
-      threads: 1
-      timeout_seconds: 300
-      keyfile: /tmp/keyfile.json
-" > ~/.dbt/profiles.yml
+          cat <<EOF > ~/.dbt/profiles.yml
+          my_new_project:
+            target: prod
+            outputs:
+              prod:
+                type: bigquery
+                method: service-account
+                project: prello_france
+                dataset: dbt_ddelmor
+                threads: 1
+                timeout_seconds: 300
+                keyfile: /tmp/keyfile.json
+          EOF
         env:
           GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
       - name: Run dbt build
@@ -48,7 +48,7 @@ my_new_project:
           cp target/catalog.json docs-tmp/
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/Development'
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: davidms-git/github-pages-deploy-action@v4
         with:
           folder: docs-tmp
           branch: gh-pages
