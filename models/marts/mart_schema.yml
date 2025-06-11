@@ -1,0 +1,20 @@
+models:
+  - name: mart_prello_france_all_scores_scaled_final
+    description: "final mart model with scoring metrics for each investor profile"
+    columns:
+    - name: municipality_code
+      description: "Unique identifier for each municipality"
+    - name: city_name_normalized
+      description: "name of the city according to its municipality code"
+    - name: latitude
+      description: "latitude of the municipality used for geolocalization"
+    - name: longitude
+      description: "longitude of the municipality used for geolocalization"
+    - name: vacation_seeker_score
+      description: "cities score for vacation seeker investor profile based on weighted kpis"
+    - name: yield_investor_score
+      description: "cities score for yield investors profile based on weighted kpis"
+    - name: luxury_buyer_score
+      description: "cities score for luxury buyers profile based on weighted kpis"
+    - name: city_opportunity_score
+      description: "generic cities scores for internal use based on equally weighted kpis"
