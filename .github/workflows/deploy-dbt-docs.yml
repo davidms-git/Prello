@@ -1,24 +1,14 @@
-name: Deploy dbt Docs to GitHub Pages
-on:
-  push:
-    branches:
-      - Development  # Your default branch
-  workflow_dispatch:  # Allows manual trigger
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: build
-        run: dbt build
-      - name: generate docs
-        if: github.ref == 'refs/heads/main'
-        run: |
-          dbt docs generate --static
-          mkdir docs-tmp
-          cp target/static_index.html docs-tmp/index.html
-      - name: publish docs
-        if: github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs-tmp
-          branch: gh-pages
+- name: build
+  run: dbt build
+- name: generate docs
+  if: github.ref == 'refs/heads/main'
+  run: |
+    dbt docs generate --static
+    mkdir docs-tmp
+    cp target/static_index.html docs-tmp/index.html
+- name: publish docs
+  if: github.ref == 'refs/heads/main'
+  uses: JamesIves/github-pages-deploy-action@v4
+  with:
+    folder: docs-tmp
+    branch: gh-pages
