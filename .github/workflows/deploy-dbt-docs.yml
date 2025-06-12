@@ -1,8 +1,8 @@
 name: Deploy dbt Docs
 
 on:
-  push:
-    branches: [Development]  # Change to [main] if your default branch is main
+  #push:
+    #branches: [Development]  # Change to [main] if your default branch is main
   workflow_dispatch:
 
 jobs:
