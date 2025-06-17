@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH base AS (
   SELECT *
   FROM {{ ref('mart_prello_france_joined_kpis_city_normalized_final_version') }}
