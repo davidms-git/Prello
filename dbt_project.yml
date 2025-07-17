@@ -41,5 +41,3 @@ models:
     example:
       +materialized: table
 
-docs:
-  index: index
