@@ -40,7 +40,3 @@ models:
     # Applies to all files under models/example/
     example:
       +materialized: table
-
-
-docs:
-  index: index  # refers to docs/index.md
