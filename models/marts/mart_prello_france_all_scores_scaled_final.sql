@@ -83,6 +83,19 @@ final AS (
 
   FROM scored s
   CROSS JOIN stats st
+),
+
+ranked AS (
+  SELECT *,
+    ROW_NUMBER() OVER (ORDER BY yield_investor_score DESC) AS yield_rank,
+    ROW_NUMBER() OVER (ORDER BY vacation_seeker_score DESC) AS vacation_rank,
+    ROW_NUMBER() OVER (ORDER BY luxury_buyer_score DESC) AS luxury_rank
+  FROM final
 )
 
-SELECT * FROM final
+SELECT
+  *,
+  yield_rank <= 50 AS is_top_50_yield,
+  vacation_rank <= 50 AS is_top_50_vacation,
+  luxury_rank <= 50 AS is_top_50_luxury
+FROM ranked
