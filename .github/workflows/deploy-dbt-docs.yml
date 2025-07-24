@@ -53,9 +53,7 @@ jobs:
       - name: Generate docs
         run: |
           dbt docs generate --static
-          mkdir -p docs-tmp
-          cp target/index.html docs-tmp/
-          cp target/manifest.json target/catalog.json docs-tmp/
+          cp -r target/ docs-tmp
 
       # 7️⃣  Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
