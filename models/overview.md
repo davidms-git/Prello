@@ -5,9 +5,9 @@
 **Project Type**: Educational / Capstone (Data Analytics Bootcamp)  
 **Team Lead**: David de la Mora
 **Collaborators**: Paulina Marie Ekrod, Beliz Kuyumcuoglu, Louise Gilbert  
-**Tools Used**: dbt, BigQuery, Python, Google Colab, Looker Studio, Power BI
-**Looker Dashboard**: https://lookerstudio.google.com/reporting/f2bf0226-ddd6-4b6e-9d66-62d0fe224e5c
-**GitHub repository**: https://github.com/davidms-git/Prello
+**Tools Used**: dbt, BigQuery, Python, Google Colab, Looker Studio, Power BI  
+**Looker Dashboard**: https://lookerstudio.google.com/reporting/f2bf0226-ddd6-4b6e-9d66-62d0fe224e5c  
+**GitHub repository**: https://github.com/davidms-git/Prello  
 
 
 > ⚠️ _Disclaimer_: This project is for educational purposes only and is not intended for commercial use or affiliated with Prello.
