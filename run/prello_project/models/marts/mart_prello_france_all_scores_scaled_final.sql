@@ -95,8 +95,27 @@ final AS (
 
   FROM scored s
   CROSS JOIN stats st
+),
+
+ranked AS (
+  SELECT *,
+    ROW_NUMBER() OVER (ORDER BY yield_investor_score DESC) AS yield_rank,
+    ROW_NUMBER() OVER (ORDER BY vacation_seeker_score DESC) AS vacation_rank,
+    ROW_NUMBER() OVER (ORDER BY luxury_buyer_score DESC) AS luxury_rank,
+    ROW_NUMBER() OVER (ORDER BY city_opportunity_score DESC) AS neutral_rank
+  FROM final
 )
 
-SELECT * FROM final
+SELECT
+  *,
+  yield_rank <= 50 AS is_top_50_yield,
+  vacation_rank <= 50 AS is_top_50_vacation,
+  luxury_rank <= 50 AS is_top_50_luxury,
+  neutral_rank <= 50 AS is_top_50_neutral_rank,
+  yield_rank <= 100 AS is_top_100_yield,
+  vacation_rank <= 100 AS is_top_100_vacation,
+  luxury_rank <= 100 AS is_top_100_luxury,
+  neutral_rank <= 100 AS is_top_100_neutral_rank,
+FROM ranked
     );
   
